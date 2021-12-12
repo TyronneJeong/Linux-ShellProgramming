@@ -2,7 +2,7 @@
  "cells": [
   {
    "cell_type": "markdown",
-   "id": "447a89f3",
+   "id": "33481fb9",
    "metadata": {},
    "source": [
     "# Looping\n",
@@ -14,7 +14,7 @@
   },
   {
    "cell_type": "markdown",
-   "id": "9a981f16",
+   "id": "f444e683",
    "metadata": {},
    "source": [
     "## expr, let\n",
@@ -26,7 +26,7 @@
   {
    "cell_type": "code",
    "execution_count": 44,
-   "id": "976d9a75",
+   "id": "792ac9c9",
    "metadata": {},
    "outputs": [
     {
@@ -78,7 +78,7 @@
   {
    "cell_type": "code",
    "execution_count": 50,
-   "id": "a82a0c4b",
+   "id": "be5f9d19",
    "metadata": {},
    "outputs": [
     {
@@ -111,7 +111,7 @@
   },
   {
    "cell_type": "markdown",
-   "id": "4ad143a4",
+   "id": "767c6ef3",
    "metadata": {},
    "source": [
     "## while and until loop\n",
@@ -123,7 +123,7 @@
   {
    "cell_type": "code",
    "execution_count": 57,
-   "id": "38ace305",
+   "id": "76b3f390",
    "metadata": {},
    "outputs": [
     {
@@ -161,7 +161,7 @@
   {
    "cell_type": "code",
    "execution_count": 56,
-   "id": "c6fb45a6",
+   "id": "33a1778f",
    "metadata": {},
    "outputs": [
     {
@@ -200,7 +200,7 @@
   },
   {
    "cell_type": "markdown",
-   "id": "60aeb4ea",
+   "id": "ddd1bcf2",
    "metadata": {},
    "source": [
     "## for-in-loop\n",
@@ -210,7 +210,7 @@
   {
    "cell_type": "code",
    "execution_count": 59,
-   "id": "5531d529",
+   "id": "7aa8e742",
    "metadata": {},
    "outputs": [
     {
@@ -256,7 +256,7 @@
   {
    "cell_type": "code",
    "execution_count": 61,
-   "id": "dcaa6104",
+   "id": "673eb591",
    "metadata": {},
    "outputs": [
     {
@@ -365,7 +365,7 @@
   {
    "cell_type": "code",
    "execution_count": 64,
-   "id": "fdca8ca3",
+   "id": "58ed27e6",
    "metadata": {},
    "outputs": [
     {
@@ -420,112 +420,45 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 66,
-   "id": "f2df49de",
+   "execution_count": 65,
+   "id": "56102c0e",
    "metadata": {},
    "outputs": [
     {
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "#1/bin/bash\n",
-      "\n",
-      "# 전체 파일을 탐색하여 백업 디렉토리에 저장 시키는 예제\n",
-      "\n",
-      "# 백업 디렉토리가 존재하지 않는다면 생성\n",
-      "if [ ! -d backup ]\n",
-      "then\n",
-      "  mkdir backup\n",
-      "fi\n",
-      "\n",
-      "# 파일 복사\n",
-      "for f in *\n",
-      "do\n",
-      "  echo -n \"current file is : $f\"\n",
-      "  if [ -f $f ]\n",
-      "  then\n",
-      "    cp $f backup/$f.old\n",
-      "  fi\n",
-      "done\n",
-      "-n current file is : ***\n",
-      "backup.sh: line 15: [: too many arguments\n",
-      "-n current file is : 01.리눅스쉘이란.ipynb\n",
-      "-n current file is : 02.Bash쉘과변수.ipynb\n",
-      "-n current file is : 03.Bash쉘과Rules-1.ipynb\n",
-      "-n current file is : 03.Bash쉘과Rules-2.ipynb\n",
-      "-n current file is : 04.Bash쉘스크립트란.ipynb\n",
-      "-n current file is : 05.PositionalParameters.ipynb\n",
-      "-n current file is : 06.Input과Output.ipynb\n",
-      "-n current file is : 07.Branching.ipynb\n",
-      "-n current file is : 08.Looping.ipynb\n",
-      "-n current file is : 4\n",
-      "-n current file is : This is a file\n",
-      "backup.sh: line 15: [: too many arguments\n",
-      "-n current file is : backup\n",
-      "-n current file is : backup.sh\n",
-      "-n current file is : case.sh\n",
-      "-n current file is : case2.sh\n",
-      "-n current file is : date.txt\n",
-      "-n current file is : diskspace.sh\n",
-      "-n current file is : err1.txt\n",
-      "-n current file is : err2.txt\n",
-      "-n current file is : forinloop.sh\n",
-      "-n current file is : forinloop2.sh\n",
-      "-n current file is : gugu.sh\n",
-      "-n current file is : ifthenelsefi.sh\n",
-      "-n current file is : log-20211212\n",
-      "-n current file is : log-20211212.log\n",
-      "-n current file is : msg.txt\n",
-      "-n current file is : param.sh\n",
-      "-n current file is : sample.d\n",
-      "-n current file is : script.sh\n",
-      "-n current file is : until.sh\n",
-      "-n current file is : while.sh\n"
+      "#1/bin/bash\r\n",
+      "\r\n",
+      "# 전체 파일을 탐색하여 백업 디렉토리에 저장 시키는 예제\r\n",
+      "\r\n",
+      "# 백업 디렉토리가 존재하지 않는다면 생성\r\n",
+      "if [ ! -d backup ]\r\n",
+      "then\r\n",
+      "  mkdir backup\r\n",
+      "fi\r\n",
+      "\r\n",
+      "# 파일 복사\r\n",
+      "for f in *\r\n",
+      "do\r\n",
+      "  echo -n \"current file is : $f\"\r\n",
+      "  if [ -f $f ]\r\n",
+      "  then\r\n",
+      "    cp $f backup/$f.old\r\n",
+      "  fi\r\n",
+      "done\r\n"
      ]
     }
    ],
    "source": [
     "# 파일 백업 스크립트 예제\n",
-    "!cat backup.sh\n",
-    "!sh backup.sh"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 67,
-   "id": "62bcd2ac",
-   "metadata": {},
-   "outputs": [
-    {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "01.리눅스쉘이란.ipynb.old           diskspace.sh.old\r\n",
-      "02.Bash쉘과변수.ipynb.old           err1.txt.old\r\n",
-      "03.Bash쉘과Rules-1.ipynb.old        err2.txt.old\r\n",
-      "03.Bash쉘과Rules-2.ipynb.old        forinloop.sh.old\r\n",
-      "04.Bash쉘스크립트란.ipynb.old       forinloop2.sh.old\r\n",
-      "05.PositionalParameters.ipynb.old   gugu.sh.old\r\n",
-      "06.Input과Output.ipynb.old          ifthenelsefi.sh.old\r\n",
-      "07.Branching.ipynb.old              log-20211212.log.old\r\n",
-      "08.Looping.ipynb.old                log-20211212.old\r\n",
-      "4.old                               msg.txt.old\r\n",
-      "backup.sh.old                       param.sh.old\r\n",
-      "case.sh.old                         \u001b[1m\u001b[32mscript.sh.old\u001b[m\u001b[m\r\n",
-      "case2.sh.old                        until.sh.old\r\n",
-      "date.txt.old                        while.sh.old\r\n"
-     ]
-    }
-   ],
-   "source": [
-    "# 백업 파일 확인\n",
-    "!ls backup/"
+    "!cat backup.sh"
    ]
   },
   {
    "cell_type": "code",
    "execution_count": null,
-   "id": "d786bfb8",
+   "id": "f24dbda8",
    "metadata": {},
    "outputs": [],
    "source": []

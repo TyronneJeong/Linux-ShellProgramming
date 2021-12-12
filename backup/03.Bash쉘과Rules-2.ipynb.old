@@ -1,0 +1,303 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "9dec6d79",
+   "metadata": {},
+   "source": [
+    "# Bash 쉘과 Rules (2)\n",
+    "\n",
+    "1. Redirection\n",
+    "2. Pipeline"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "00e232a4",
+   "metadata": {},
+   "source": [
+    "## Communication Channel\n",
+    "\n",
+    "**[키보드]** -> <span style=\"font-size:10pt;font-weight:bold;color:red;\">[ stdin -> Program -> stdout/stderr ]</span> : shell -> **[모니터]**"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "24f3b092",
+   "metadata": {},
+   "source": [
+    "## Redirection\n",
+    "|채널|문자|의미|\n",
+    "|:--|:--|:--|\n",
+    "|STDIN|0<, 0<<|입력 소스가 키보드가 아닌 파일을 통한 입력|\n",
+    "|STDOUT|1>, 1>>|출력 소스가 터미널이 아닌 파일을 통한 출력|\n",
+    "|STDERR|2>, 2>>|에러 코드 출력을 터미널이 아닌 파일을 통한 출력|"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "92a26952",
+   "metadata": {},
+   "source": [
+    "#### 표준입력 (STDIN)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "id": "1ece3478",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "uid=501(daehwajeong) gid=20(staff) groups=20(staff),12(everyone),61(localaccounts),79(_appserverusr),80(admin),81(_appserveradm),98(_lpadmin),33(_appstore),100(_lpoperator),204(_developer),250(_analyticsusers),395(com.apple.access_ftp),398(com.apple.access_screensharing),399(com.apple.access_ssh),400(com.apple.access_remote_ae),701(com.apple.sharepoint.group.1)\n",
+      "^C\n",
+      "\n",
+      "(Interrupt -- one more to kill letter)\n"
+     ]
+    }
+   ],
+   "source": [
+    "# 키보드 입력을 통한 메일 발송\n",
+    "!id\n",
+    "\n",
+    "# daehwajeong 계정으로 메일 보내기 -> stdin 입력 대기 상태로 진입된다.\n",
+    "!mailx -s \"Hello World!!\" daehwajeong@localhost\n",
+    "\n",
+    "# > 입력 대기상태 진입\n",
+    "# > _\n",
+    "# > Ctrl + D : 입력 종료"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "id": "07eb10af",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# 파일을 통한 메일 발송\n",
+    "!echo \"This is sample email contents.\" > msg.txt\n",
+    "!cat msg.txt\n",
+    "\n",
+    "# msg.txt 파일을 읽어 0번 입력 스트림으로 전송 한다. (숫자 0은 생략 가능 하다.)\n",
+    "!mailx -s \"Hello World!!\" daehwajeong@localhost 0< msg.txt"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "id": "91b83f57",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Mail version 8.1 6/6/93.  Type ? for help.\n",
+      "\"/var/mail/daehwajeong\": 1 message 1 new\n",
+      ">N  1 daehwajeong@jeongdae  Sun Dec 12 03:54  14/575   \"Hello World!!\"\n",
+      "? ^C\n",
+      "Interrupt\n",
+      "? At EOF\n",
+      "? "
+     ]
+    }
+   ],
+   "source": [
+    "# 메일 함 확인\n",
+    "!mailx\n",
+    "\n",
+    "# 1,2 .. n : 메일 번호 입력으로 내용 확인\n",
+    "# q : 메일 함 종료"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "36468a00",
+   "metadata": {},
+   "source": [
+    "#### 표준출력 (STDOUT)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 24,
+   "id": "8f9e695a",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "오늘의 날짜와 시간은요? ==> 2021년 12월 12일 일요일 04시 02분 50초 JST\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "# date 함수 출력 결과는 파일로 저장 (숫자 1은 생략이 가능하다.)\n",
+    "!echo \"오늘의 날짜와 시간은요? ==> $(date)\" 1> date.txt\n",
+    "!cat date.txt"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 50,
+   "id": "52e96bee",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "오늘의 날짜와 시간은요? ==> 2021년 12월 12일 일요일 04시 02분 50초 JST\r\n",
+      "오늘의 날짜와 시간은요? ==> 2021년 12월 12일 일요일 04시 03분 42초 JST\r\n",
+      "오늘의 날짜와 시간은요? ==> 2021년 12월 12일 일요일 04시 15분 02초 JST\r\n",
+      "오늘의 날짜와 시간은요? ==> 2021년 12월 12일 일요일 04시 15분 05초 JST\r\n",
+      "오늘의 날짜와 시간은요? ==> 2021년 12월 12일 일요일 04시 15분 06초 JST\r\n",
+      "오늘의 날짜와 시간은요? ==> 2021년 12월 12일 일요일 04시 15분 08초 JST\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "# 기존 내용에 현재 정보를 추가 하여 저장\n",
+    "!echo \"오늘의 날짜와 시간은요? ==> $(date)\" 1>> date.txt\n",
+    "!cat date.txt"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 40,
+   "id": "693496e5",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "***                           08.Looping.ipynb\n",
+      "01.리눅스쉘이란.ipynb         This is a file\n",
+      "02.Bash쉘과변수.ipynb         date.txt\n",
+      "03.Bash쉘과Rules-1.ipynb      err1.txt\n",
+      "03.Bash쉘과Rules-2.ipynb      err2.txt\n",
+      "04.BashShellScript란.ipynb    log-20211212\n",
+      "05.PositionalParameters.ipynb log-20211212.log\n",
+      "06.Input과Output.ipynb        msg.txt\n",
+      "07.Branching.ipynb\n",
+      "zsh:1: command not found: data\n"
+     ]
+    }
+   ],
+   "source": [
+    "# data 오류의 출력\n",
+    "!rm err*.txt\n",
+    "!data 1> err1.txt 2>err2.txt\n",
+    "# or 오류내용만 휴지통으로 이동 시킬 수도 있다.\n",
+    "!data 1> err1.txt 2>/dev/null\n",
+    "\n",
+    "# 정상 출력 결과가 없더라도 파일은 생성 된다.\n",
+    "!ls\n",
+    "!cat err1.txt\n",
+    "!cat err2.txt"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "6776f176",
+   "metadata": {},
+   "source": [
+    "## Pipeline\n",
+    "\n",
+    "명령어 실행결과를 다음 명령의 입력 값으로 전달하는 기능\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 45,
+   "id": "f79df731",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "      17\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "# ls 명령어와 wc (워드카운트 -l:라인단위) 명령어의 조합 예시 : 총 17개의 파일이 존재함을 확인\n",
+    "!ls | wc -l"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 55,
+   "id": "b70835f4",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "***\r\n",
+      "01\r\n",
+      "02\r\n",
+      "03\r\n",
+      "04\r\n",
+      "05\r\n",
+      "06\r\n",
+      "07\r\n",
+      "08\r\n",
+      "This is a file\r\n",
+      "date\r\n",
+      "err1\r\n",
+      "err2\r\n",
+      "log-20211212\r\n",
+      "msg\r\n"
+     ]
+    }
+   ],
+   "source": [
+    "# 출력 결과에 형식을 지정 하고 이를 정렬 하는 예시\n",
+    "# -d : 구분자를 . 으로 지정\n",
+    "# -f : 구분자로 분리된 문자열중 1번째 항목을 출력\n",
+    "# sort : 정렬\n",
+    "# uniq : 중복값 제거\n",
+    "\n",
+    "!ls | cut -d. -f 1 | sort | uniq"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "ae22df97",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.9.7"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
